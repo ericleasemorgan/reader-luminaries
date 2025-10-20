@@ -1,0 +1,22 @@
+{% extends 'base.htm' %}
+
+{% block content %}
+	  <h1>Set length</h1>
+	  
+	  <p>When summarizing or elaborating, how long should the response be?</p>
+	  
+	  <form method='GET' action='/length/'>
+		Length <select name='length'>
+		{% for length in lengths %}
+			{% if length == selected %}
+				<option value='{{ length }}' selected='selected'>{{ length }}</option>
+			{% else %}
+				<option value='{{ length }}'>{{ length }}</option>
+			{% endif %}
+
+		{% endfor %}
+		</select>
+		<input type='submit' value='Set' />
+	  </form>
+	  
+{% endblock %}

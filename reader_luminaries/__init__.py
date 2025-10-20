@@ -9,10 +9,10 @@
 # August     9, 2025 - added more things than I can count, but as of now, all functions work
 # August    11, 2025 - modified so the whole thing is a package; I'm learning
 # September 29, 2025 - removed "Nex steps"; while "commencing" here in the Sainte-Geneviève Library, Paris
+# October   20, 2025 - added response length, I think
 
 
 # pre-configure
-LLM  = 'llama2'
 LLM = 'deepseek-v3.1:671b-cloud'
 
 # configure
@@ -26,11 +26,13 @@ CACHEDCITES     = 'cached-cites.txt'
 CACHEDQUERY     = 'cached-query.txt'
 CACHEDQUESTION  = 'cached-question.txt'
 CACHEDRESULTS   = 'cached-results.txt'
+CACHEDLENGTH    = 'cached-length.txt'
 CACHEDPERSONA   = 'cached-persona.txt'
 CATALOG         = 'catalog.csv'
 SYSTEMPROMPT    = 'system-prompt.txt'
 PERSONAS        = 'personas.txt'
-PROMPTELABORATE = 'Answer the question "%s" and use only the following as the source of the answer: %s'
+LENGTHS         = 'lengths.txt'
+PROMPTELABORATE = 'Answer the question "%s" in five or six sentences, and use only the following as the source of the answer: %s'
 
 # require
 from flask                    import Flask, render_template, request
@@ -301,21 +303,43 @@ def summarize() :
 def persona() :
 
 	# configure
-	PREFIX   = 'You are '
-	SUFFIX   = '.'
+	TEMPLATE = 'You are %s, and you respond in %s.'
 
 	# initialize
 	with open( cwd/ETC/PERSONAS ) as handle : personas = handle.read().splitlines()
 	selected = open( cwd/ETC/CACHEDPERSONA ).read()
+	length   = open( cwd/ETC/CACHEDLENGTH ).read()
 
 	# get input
 	persona = request.args.get( 'persona', '' )
 	if not persona : return render_template( 'persona-form.htm', personas=personas, selected=selected )
 
 	# save
-	with open( cwd/ETC/SYSTEMPROMPT, 'w' )  as handle : handle.write( PREFIX + persona + SUFFIX )
+	with open( cwd/ETC/SYSTEMPROMPT, 'w' )  as handle : handle.write( ( TEMPLATE % ( persona, length ) ) )
 	with open( cwd/ETC/CACHEDPERSONA, 'w' ) as handle : handle.write( persona )
 	return render_template('persona.htm', persona=persona )
+	
+
+# response lengths
+@reader.route("/length/")
+def length() :
+
+	# configure
+	TEMPLATE = 'You are %s, and you respond in %s.'
+
+	# initialize
+	with open( cwd/ETC/LENGTHS ) as handle : lengths = handle.read().splitlines()
+	selected = open( cwd/ETC/CACHEDLENGTH ).read()
+	persona  = open( cwd/ETC/CACHEDPERSONA ).read()
+
+	# get input
+	length = request.args.get( 'length', '' )
+	if not length : return render_template( 'length-form.htm', lengths=lengths, selected=selected )
+
+	# save
+	with open( cwd/ETC/SYSTEMPROMPT, 'w' ) as handle : handle.write( TEMPLATE % ( persona, length ) )
+	with open( cwd/ETC/CACHEDLENGTH, 'w' ) as handle : handle.write( length )
+	return render_template('length.htm', length=length )
 	
 
 # carrel
