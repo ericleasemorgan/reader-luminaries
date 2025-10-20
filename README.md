@@ -1,7 +1,7 @@
 
 
-Reader Lite
-===========
+Reader Luninaries
+=================
 
 The is a Web-based application used to interactively read a set of three books:
 
