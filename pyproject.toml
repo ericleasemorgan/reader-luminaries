@@ -1,0 +1,19 @@
+[project]
+name = "reader_luminaries"
+version = "1.0.0"
+description = "A Web-based tool to read and interact with three books written by Horace, Francis Bacon, and John Locke"
+dependencies = [
+	"flask",
+	"numpy",
+	"ollama",
+	"pandas",
+	"pathlib",
+	"scipy",
+	"scikit-learn",
+	"sqlite_vec",
+	"typing"
+]
+
+[build-system]
+requires = ["flit_core"]
+build-backend = "flit_core.buildapi"

@@ -1,0 +1,27 @@
+{% extends 'base.htm' %}
+
+{% block content %}
+	  <h1>Choose a book</h1>
+	  
+	  	<p>What book do you want to read?</p>
+	  	
+		<form method='GET' action='/choose/'>
+		<table>
+		<tr><th style='text-align: left'>Selection</th><th>Books</th></tr>
+		{% for carrel in carrels %}
+ 			<tr>
+ 				
+ 				{% if carrel[0] == selected %}
+ 					<td style='text-align:center'><input type="radio" name='carrel' value='{{carrel[0]}}--{{carrel[1]}}--{{carrel[2]}}' checked='checked' /></td>
+ 				{% else %}
+ 					<td style='text-align:center'><input type="radio" name='carrel' value='{{carrel[0]}}--{{carrel[1]}}--{{carrel[2]}}' /></td>
+ 				{% endif %}
+
+ 				<td><a href='{{carrel[2]}}'>{{carrel[1]}}</a></td>
+ 			</tr>
+ 		{% endfor %}
+		<tr><td><input type='submit' value='Choose' /></td><td></td></tr>
+		</table>
+	  </form>
+	  
+{% endblock %}

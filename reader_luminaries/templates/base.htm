@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Reader Lite</title>
+		<style>
+			h1, h2, h3 { font-family: Helvetica, sans-serif; }
+		</style>
+	</head>
+
+	<body>
+	
+		<div style="width:96%; display:table;">
+			<div style="display:table-row">
+
+				<!-- menu -->
+				<div style="width:20%; display:table-cell; text-align:center">
+					<p>
+					<a href="/">Home</a><br />
+					<br />
+					<a href="/search/">Search</a><br />
+					<a href="/reformat/">Reformat</a><br />
+					<a href="/cites/">Cite</a><br />
+					<a href="/review/">Review</a><br />
+					<a href="/summarize/">Summarize</a><br />
+					<a href="/elaborate/">Elaborate</a><br />
+					<br />
+					<a href="/choose/">Choose a book</a><br />
+					<a href="/question/">Get a question</a><br />
+					<a href="/persona/">Set the persona</a><br />
+					</p>
+				</div>
+
+				<!-- content -->
+				<div style="display:table-cell;">
+					{% block content %}{% endblock %}
+					<hr />
+					<p style='text-align:right'>Reader Luminaries<br />
+					October 18, 2025
+					</p>
+				</div>
+
+			</div>
+		</div>		
+	</body>
+</html>
