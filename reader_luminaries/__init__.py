@@ -20,6 +20,7 @@ EMBEDDER        = 'nomic-embed-text'
 STATIC          = 'static'
 CARRELS         = 'carrels'
 DATABASE        = 'sentences.db'
+INDEXJSON       = 'index.json'
 ETC             = 'etc'
 CACHEDCARREL    = 'cached-carrel.txt'
 CACHEDCITES     = 'cached-cites.txt'
@@ -48,6 +49,7 @@ from sqlite_vec               import load
 from sqlite3                  import connect
 from struct                   import pack
 from typing                   import List
+import json
 import numpy                  as     np
 
 # initialize
@@ -231,18 +233,34 @@ def cites() :
 	# initialize
 	carrel = open( cwd/ETC/CACHEDCARREL ).read().split( '\t' )[ 0 ]
 	cache  = '/'.join( [ STATIC, CARRELS, carrel, CACHE ] )
-	
-	# get and format the citations
+		
+	# get the citations and their counts
 	cites = read_csv( cwd/ETC/CACHEDCITES, sep='\t', names=NAMES )
 	cites = cites.groupby( [ 'items' ], as_index=False )[ 'sentences' ].count()
 	cites = cites.sort_values( 'sentences', ascending=False )
 	cites = [ row.tolist() for index, row in cites.iterrows() ]	
+
+	# process each citation; create a more expressive version of the citations
+	items = []
+	with open ( cwd/STATIC/CARRELS/carrel/INDEXJSON ) as handle : bibliographics = json.load( handle )
+	for cite in cites :
 	
+		# loop through all bhe bibliogrpahics; ought to be a dictionary, not a list
+		for bibliographic in bibliographics :
+		
+			# match
+			if bibliographic[ 'id' ] == cite[ 0 ] :
+				
+				# parse, update, and break
+				title = bibliographic[ 'title' ]
+				items.append( [ title, cite[ 1 ] ] )
+				break
+		
 	# done
-	return render_template('cites.htm',  cache=cache, cites=cites, suffix=SUFFIX )
+	return render_template('cites.htm',  cache=cache, cites=items, suffix=SUFFIX )
 
 
-# cites
+# elaborate
 @reader.route( "/elaborate/" )
 def elaborate() :
 
