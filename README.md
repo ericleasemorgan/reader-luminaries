@@ -55,9 +55,7 @@ Sixth, launch Reader Lite with the following command:
 
 Finally, open http://127.0.0.1:5000 in your Web browser, and you ought to see something very similar to the following:
 
-
-<img width="600" height="349" alt="screenshot" src="https://github.com/user-attachments/assets/66b5ab89-1718-4a09-b2e9-0b12574e0989" />
-
+<img width="1094" height="850" alt="reader-luminaries" src="https://github.com/user-attachments/assets/0a8940b4-fb4f-40da-a691-5bdad4c2129d" />
 
 Congratuations, you have successfully installed and launched Reader Luminaries. Whew.
 
