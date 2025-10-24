@@ -27,7 +27,7 @@ First, Reader Luminaries is a Python application. Open your terminal and run the
 
 Second, Reader Luminaries requires the installation of [Ollama](https://ollama.com), a tool making it easy to run generative-AI applications on your local computer. Visit https://ollama.com/download and install Ollama. It is not hard. I promise.
 
-Third, Reader Luminaries is configured to use two specific large language mnodels. Open your terminal and install LLama2:
+Third, Reader Luminaries is configured to use two specific large language mnodels. Open your terminal and install Deepseek:
 
     ollama pull deepseek-v3.1:671b-cloud
 
@@ -47,7 +47,7 @@ Use pip to do the actual installation, and power-users may want to install the t
 
     pip install .
 
-If you got this far, then the hard parts are complete.
+If you got this far, then the hard parts are over.
 
 Sixth, launch Reader Lite with the following command:
 
