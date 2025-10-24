@@ -6,11 +6,11 @@
 	  	<p>Below is a list of the items from whence the search results came.</p>
 	  	
 		<table>
-		<tr><th style='text-align: left'>Items</th><th>Number of sentences</th></tr>
-		{% for cite in cites %}
+		<tr><th style='text-align: left'>Counts</th><th>Items</th></tr>
+		{% for item in items %}
  			<tr>
- 				<td><a href='/{{cache}}/{{cite[0]}}{{suffix}}'>{{cite[0]}}{{suffix}}</a></td>
- 				<td style='text-align:center'>{{cite[1]}}</td>
+ 				<td style='text-align:center; vertical-align:top'>{{item['count']}}</td>
+ 				<td><a href='/{{cache}}/{{item['id']}}{{item['extension']}}'>{{item['title']}}</a> - {{item['summary']}} Keywords: {{item['keywords']}}</td>
   			</tr>
  		{% endfor %}
 		</table>

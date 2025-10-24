@@ -10,6 +10,7 @@
 # August    11, 2025 - modified so the whole thing is a package; I'm learning
 # September 29, 2025 - removed "Nex steps"; while "commencing" here in the Sainte-Geneviève Library, Paris
 # October   20, 2025 - added response length, I think
+# October   23, 2025 - enhanced cites
 
 
 # pre-configure
@@ -33,7 +34,7 @@ CATALOG         = 'catalog.csv'
 SYSTEMPROMPT    = 'system-prompt.txt'
 PERSONAS        = 'personas.txt'
 LENGTHS         = 'lengths.txt'
-PROMPTELABORATE = 'Answer the question "%s" in five or six sentences, and use only the following as the source of the answer: %s'
+PROMPTELABORATE = 'Answer the question "%s", and use only the following as the source of the answer: %s'
 
 # require
 from flask                    import Flask, render_template, request
@@ -227,7 +228,6 @@ def cites() :
 
 	# configure
 	NAMES  = [ 'items', 'sentences' ]
-	SUFFIX = '.txt'
 	CACHE  = 'cache'
 
 	# initialize
@@ -240,24 +240,33 @@ def cites() :
 	cites = cites.sort_values( 'sentences', ascending=False )
 	cites = [ row.tolist() for index, row in cites.iterrows() ]	
 
-	# process each citation; create a more expressive version of the citations
+	# process each citation; create a more expressive version of the citations; poor data structure design, probably
 	items = []
 	with open ( cwd/STATIC/CARRELS/carrel/INDEXJSON ) as handle : bibliographics = json.load( handle )
 	for cite in cites :
 	
+		# parse
+		id    = cite[ 0 ]
+		count = cite[ 1 ]
+		
 		# loop through all bhe bibliogrpahics; ought to be a dictionary, not a list
 		for bibliographic in bibliographics :
 		
 			# match
-			if bibliographic[ 'id' ] == cite[ 0 ] :
+			if bibliographic[ 'id' ] == id :
 				
 				# parse, update, and break
-				title = bibliographic[ 'title' ]
-				items.append( [ title, cite[ 1 ] ] )
+				author       = bibliographic[ 'author' ]
+				title        = bibliographic[ 'title' ]
+				date         = bibliographic[ 'date' ]
+				summary      = bibliographic[ 'summary' ]
+				keywords     = bibliographic[ 'keywords' ]
+				extension    = bibliographic[ 'extension' ]
+				items.append( { 'id':id, 'author':author, 'title': title, 'date':date, 'summary':summary, 'keywords':keywords, 'extension':extension, 'count':count } )
 				break
-		
+					
 	# done
-	return render_template('cites.htm',  cache=cache, cites=items, suffix=SUFFIX )
+	return render_template('cites.htm',  cache=cache, items=items )
 
 
 # elaborate
