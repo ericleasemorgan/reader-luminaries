@@ -49,7 +49,7 @@ Use pip to do the actual installation, and power-users may want to install the t
 
 If you got this far, then the hard parts are over.
 
-Sixth, launch Reader Lite with the following command:
+Sixth, launch Reader Luminaries with the following command:
 
     flask --app reader_luminaries run --debug
 
